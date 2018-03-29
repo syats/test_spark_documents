@@ -15,7 +15,7 @@ def count_words(x, debug=True):
     sp = x.split()
     if debug:
         print("\n\n"+"->"+sp[0], len(x), "\n")
-    return len(sp)
+    return sp.map(lambda word: (word, 1))
 
 sc = SparkContext(appName="PythonStreamingDirectKafkaWordCountRM")
 ssc = StreamingContext(sc, 3)
@@ -29,8 +29,7 @@ kafkaStream = KafkaUtils.createStream(ssc,
 # counts = parsed.map(count_words)
 
 lines = kafkaStream.map(lambda x: x[1])
-counts = lines.flatMap(lambda line: line.split()).map(lambda word: (word, 1)) \
-    .reduceByKey(lambda a, b: a + b)
+counts = lines.flatMap(count_words).reduceByKey(lambda a, b: a + b)
 
 # print("\n\n\n\n XXXX \n\n\n\n")
 # reduction = counts.reduce(lambda a, b: a + b)
