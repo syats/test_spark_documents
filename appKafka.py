@@ -1,4 +1,4 @@
-from auxApp import my_text_f
+#from auxApp import my_text_f
 from pyspark import SparkContext
 from pyspark.streaming import StreamingContext
 from pyspark.streaming.kafka import KafkaUtils
@@ -11,7 +11,7 @@ kafkaStream = KafkaUtils.createStream(ssc,
                                       {'topic1':1})
 
 parsed = kafkaStream.map(lambda v: v.strip())
-counts = parsed.map(my_text_f)
+counts = parsed.map(lambda x: len(x.split()))
 print("\n\n\n\n XXXX \n\n\n\n")
 reduction = counts.reduce(lambda a, b: a + b)
 
