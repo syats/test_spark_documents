@@ -23,4 +23,4 @@ reduction = counts.reduce(lambda a, b: a + b)
 
 
 print("\n\nFINAL RESULT\n" + str(reduction))
-print("\n\n\n")
+print("_____________________________________\n\n\n")
