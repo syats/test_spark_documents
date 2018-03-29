@@ -41,4 +41,4 @@ counts.pprint()
 print("_____________________________________\n\n\n")
 
 ssc.start()
-ssc.awaitTermination()
+counts.pprint()
