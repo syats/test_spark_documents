@@ -21,7 +21,7 @@ sc = SparkContext(appName="PythonStreamingDirectKafkaWordCountRM")
 ssc = StreamingContext(sc, 3)
 kafkaStream = KafkaUtils.createStream(ssc,
                                       'broker.kafka.l4lb.thisdcos.directory:9092',
-                                      'spark-streaming',
+                                      'raw-event-streaming-consumer',
                                       {'topic1': 1})
 #
 # parsed = kafkaStream.map(lambda v: v.strip())
