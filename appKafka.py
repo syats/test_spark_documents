@@ -22,14 +22,23 @@ ssc = StreamingContext(sc, 3)
 kafkaStream = KafkaUtils.createStream(ssc,
                                       'broker.kafka.l4lb.thisdcos.directory:9092',
                                       'spark-streaming',
-                                      {'topic1':1})
-
-parsed = kafkaStream.map(lambda v: v.strip())
+                                      {'topic1': 1})
+#
+# parsed = kafkaStream.map(lambda v: v.strip())
 # parsed = sc.parallelize(my_list)
-counts = parsed.map(count_words)
-print("\n\n\n\n XXXX \n\n\n\n")
-reduction = counts.reduce(lambda a, b: a + b)
+# counts = parsed.map(count_words)
+
+lines = kafkaStream.map(lambda x: x[1])
+counts = lines.flatMap(lambda line: line.split()).map(lambda word: (word, 1)) \
+    .reduceByKey(lambda a, b: a + b)
+
+# print("\n\n\n\n XXXX \n\n\n\n")
+# reduction = counts.reduce(lambda a, b: a + b)
 
 print("\n ===================================== \n")
-print("\n\nFINAL RESULT\n" + str(reduction))
+# print("\n\nFINAL RESULT\n" + str(reduction))
+counts.pprint()
 print("_____________________________________\n\n\n")
+
+ssc.start()
+ssc.awaitTermination()
