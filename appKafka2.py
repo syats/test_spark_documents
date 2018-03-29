@@ -7,10 +7,7 @@ from pyspark.streaming import StreamingContext
 from pyspark.streaming.kafka import KafkaUtils
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage: kafka_wordcount.py <zk> <topic>", file=sys.stderr)
-        sys.exit(-1)
-
+    
     zk = "master.mesos:2181/dcos-service-kafka"
     br = "broker.kafka.l4lb.thisdcos.directory:9092"
     topic = "topic1"
