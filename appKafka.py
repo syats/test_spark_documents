@@ -19,13 +19,13 @@ def count_words(x, debug=True):
 
 sc = SparkContext(appName="PythonStreamingDirectKafkaWordCountRM")
 ssc = StreamingContext(sc, 3)
-# kafkaStream = KafkaUtils.createStream(ssc,
-#                                       'broker.kafka.l4lb.thisdcos.directory:9092',
-#                                       'spark-streaming',
-#                                       {'topic1':1})
-#
-# parsed = kafkaStream.map(lambda v: v.strip())
-parsed = sc.parallelize(my_list)
+kafkaStream = KafkaUtils.createStream(ssc,
+                                      'broker.kafka.l4lb.thisdcos.directory:9092',
+                                      'spark-streaming',
+                                      {'topic1':1})
+
+parsed = kafkaStream.map(lambda v: v.strip())
+# parsed = sc.parallelize(my_list)
 counts = parsed.map(count_words)
 print("\n\n\n\n XXXX \n\n\n\n")
 reduction = counts.reduce(lambda a, b: a + b)
