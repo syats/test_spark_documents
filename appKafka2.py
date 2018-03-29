@@ -7,7 +7,7 @@ from pyspark.streaming import StreamingContext
 from pyspark.streaming.kafka import KafkaUtils
 
 if __name__ == "__main__":
-    
+
     zk = "master.mesos:2181/dcos-service-kafka"
     br = "broker.kafka.l4lb.thisdcos.directory:9092"
     topic = "topic1"
@@ -15,7 +15,7 @@ if __name__ == "__main__":
     sc = SparkContext(appName="PythonStreamingKafkaWordCount")
     ssc = StreamingContext(sc, 1)
 
-    zkQuorum, topic = zk, topic
+    zkQuorum, topic = br, topic
     kvs = KafkaUtils.createStream(ssc, zkQuorum, "spark-streaming-consumer", {topic: 1})
     lines = kvs.map(lambda x: x[1])
     counts = lines.flatMap(lambda line: line.split(" ")) \
