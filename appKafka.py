@@ -21,6 +21,6 @@ counts = parsed.map(count_words)
 print("\n\n\n\n XXXX \n\n\n\n")
 reduction = counts.reduce(lambda a, b: a + b)
 
-
+print("\n ===================================== \n")
 print("\n\nFINAL RESULT\n" + str(reduction))
 print("_____________________________________\n\n\n")
