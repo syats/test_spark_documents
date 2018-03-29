@@ -12,7 +12,7 @@ def count_words(x, debug=True):
 sc = SparkContext(appName="PythonStreamingDirectKafkaWordCountRM")
 ssc = StreamingContext(sc, 3)
 kafkaStream = KafkaUtils.createStream(ssc,
-                                      'master.mesos:2181/dcos-service-kafka',
+                                      'broker.kafka.l4lb.thisdcos.directory:9092',
                                       'spark-streaming',
                                       {'topic1':1})
 
