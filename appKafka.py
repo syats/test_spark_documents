@@ -14,7 +14,7 @@ my_list = ["bla bla",
 def count_words(x, debug=True):
     sp = x.split()
     if debug:
-        print("\n\n"+"->"+sp[0], len(x[1]), "\n")
+        print("\n\n"+"->"+sp[0], len(x), "\n")
     return len(sp)
 
 sc = SparkContext(appName="PythonStreamingDirectKafkaWordCountRM")
