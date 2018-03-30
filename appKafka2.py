@@ -23,9 +23,7 @@ if __name__ == "__main__":
                                         fromOffsets=fromOffsets
                                         )
     lines = kvs.map(lambda x: x[1])
-    counts = lines.flatMap(lambda line: line.split(" "))\
-        .map(lambda word: (word, 1)) \
-        .reduceByKey(lambda a, b: a+b)
+    counts = lines.map(count_words).reduceByKey(lambda a, b: a+b)
     counts.pprint()
     ssc.start()
     ssc.awaitTermination()
