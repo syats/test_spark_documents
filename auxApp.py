@@ -1,6 +1,7 @@
 def count_words(x, debug=True):
-    sp = x[1].split()
+    sp = x.split()
     if debug:
-        print("\n\n"+"->"+sp[0], len(x[1]), "\n")
-    return len(sp)
+        print("\n\n"+"->"+sp[0], len(x), "\n")
+    return sp.map(lambda word: (word, 1))
+
 

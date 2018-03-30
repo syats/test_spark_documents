@@ -1,4 +1,5 @@
 from __future__ import print_function
+from auxApp import count_words
 
 import sys
 
@@ -16,11 +17,10 @@ if __name__ == "__main__":
     ssc = StreamingContext(sc, 1)
 
     zkQuorum, topic = br, topic
-    kvs = KafkaUtils.createStream(ssc, zkQuorum, "spark-streaming-consumer", {topic: 1})
+    kvs = KafkaUtils.createDirectStream(ssc, [topic],
+                                        {"metadata.broker.list": zkQuorum})
     lines = kvs.map(lambda x: x[1])
-    counts = lines.flatMap(lambda line: line.split(" ")) \
-        .map(lambda word: (word, 1)) \
-        .reduceByKey(lambda a, b: a+b)
+    counts = lines.map(count_words).reduceByKey(lambda a, b: a+b)
     counts.pprint()
 
     ssc.start()
