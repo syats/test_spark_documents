@@ -18,7 +18,9 @@ if __name__ == "__main__":
 
     zkQuorum, topic = br, topic
     kvs = KafkaUtils.createDirectStream(ssc, [topic],
-                                        {"metadata.broker.list": zkQuorum})
+                                        {"metadata.broker.list": zkQuorum},
+                                        fromOffsets={topic:0}
+                                        )
     lines = kvs.map(lambda x: x[1])
     counts = lines.map(count_words).reduceByKey(lambda a, b: a+b)
     counts.pprint()
