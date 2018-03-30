@@ -14,17 +14,25 @@ if __name__ == "__main__":
     topic = "topic1"
 
     sc = SparkContext(appName="PythonStreamingKafkaWordCount")
-    ssc = StreamingContext(sc, 1)
+    ssc = StreamingContext(sc, 2)
     fromOffsets = {TopicAndPartition(topic, 0): int(0)}
 
     zkQuorum, topic = br, topic
     kvs = KafkaUtils.createDirectStream(ssc, [topic],
                                         {"metadata.broker.list": zkQuorum},
-                                        fromOffsets=fromOffsets
+                                        # fromOffsets=fromOffsets
                                         )
     lines = kvs.map(lambda x: x[1])
-    counts = lines.map(count_words).reduceByKey(lambda a, b: a+b)
+    counts = lines.flatMap(lambda line: line.split(" "))\
+        .map(lambda word: (word, 1)) \
+        .reduceByKey(lambda a, b: a+b)
     counts.pprint()
-
     ssc.start()
     ssc.awaitTermination()
+    #
+    # lines = kvs.map(lambda x: x[1])
+    # counts = lines.map(count_words).reduceByKey(lambda a, b: a+b)
+    # counts.pprint()
+    #
+    # ssc.start()
+    # ssc.awaitTermination()
