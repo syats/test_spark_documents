@@ -5,7 +5,7 @@ import sys
 
 from pyspark import SparkContext
 from pyspark.streaming import StreamingContext
-from pyspark.streaming.kafka import KafkaUtils
+from pyspark.streaming.kafka import KafkaUtils, TopicAndPartition
 
 if __name__ == "__main__":
 
@@ -15,7 +15,7 @@ if __name__ == "__main__":
 
     sc = SparkContext(appName="PythonStreamingKafkaWordCount")
     ssc = StreamingContext(sc, 1)
-    fromOffsets = {KafkaUtils.TopicAndPartition(topic, 0): int(0)}
+    fromOffsets = {TopicAndPartition(topic, 0): int(0)}
 
     zkQuorum, topic = br, topic
     kvs = KafkaUtils.createDirectStream(ssc, [topic],
