@@ -9,7 +9,7 @@ from configs.ppconfigs import *
 
 def extract_words(x, debug=True):
     ppinstance = poolparty.PoolParty(server=pp_server, auth_data=auth_data)
-    X = str(x).encode('utf8')
+    X = str(x.encode('utf8'))
     r = ppinstance.extract(text=X, pid=pid)
     cpts = ppinstance.get_cpts_from_response(r)
     reply = []
